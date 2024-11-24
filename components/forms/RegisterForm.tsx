@@ -22,16 +22,6 @@ import Image from "next/image";
 import { SelectItem } from "../ui/select";
 import FileUploader from "../FileUploader";
 
-export enum FormFieldTypes {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
-
 export default function RegisterForm({ user }: { user: User }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
