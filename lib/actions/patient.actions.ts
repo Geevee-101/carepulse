@@ -17,6 +17,7 @@ import { InputFile } from "node-appwrite/file";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
+    console.log("creating user");
     const newuser = await users.create(
       ID.unique(),
       user.email,
@@ -24,11 +25,14 @@ export const createUser = async (user: CreateUserParams) => {
       undefined,
       user.name
     );
-
     return parseStringify(newuser);
   } catch (error: any) {
     // If the following is true then user already exist
     if (error && error?.code === 409) {
+      console.error(
+        "A previous user may have the same ID and/or phone number. Please ensure new phone number. Error log: ",
+        error
+      );
       const existingUser = await users.list([
         Query.equal("email", [user.email]),
       ]);
@@ -43,6 +47,20 @@ export const getUser = async (userId: string) => {
   try {
     const user = await users.get(userId);
     return parseStringify(user);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPatient = async (userId: string) => {
+  try {
+    console.log("The userId: ", userId);
+    const patients = await databases.listDocuments(
+      DATABASE_ID!,
+      PATIENT_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+    return parseStringify(patients.documents[0]);
   } catch (error) {
     console.error(error);
   }
