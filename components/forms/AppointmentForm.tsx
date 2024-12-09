@@ -3,14 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { getAppointmentSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patient.actions";
 import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
@@ -78,10 +76,8 @@ export default function AppointmentForm({
           note: values.note,
           status: status as Status,
         };
-        console.log("appointmentData: ", appointmentData);
-        const appointment = await createAppointment(appointmentData);
 
-        console.log("appointment: ", appointment);
+        const appointment = await createAppointment(appointmentData);
 
         if (appointment) {
           form.reset();
@@ -94,15 +90,20 @@ export default function AppointmentForm({
           userId,
           appointmentId: appointment?.$id!,
           appointment: {
-            primaryPhysician: values?.primaryPhysician,
-            schedule: new Date(values?.schedule),
+            primaryPhysician: values.primaryPhysician,
+            schedule: new Date(values.schedule),
             status: status as Status,
-            cancellationReason: values?.cancellationReason,
+            note: values.note,
+            cancellationReason: values.cancellationReason,
           },
           type,
         };
 
+        console.log("appointmentToUpdate: ", appointmentToUpdate);
+
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        console.log("updateAppointment: ", updateAppointment);
 
         if (updatedAppointment) {
           setOpen && setOpen(false);

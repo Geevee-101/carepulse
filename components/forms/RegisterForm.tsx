@@ -119,7 +119,7 @@ export default function RegisterForm({ user }: { user: User }) {
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
               name="phone"
-              label="Phone number"
+              label="Phone number (Must be unique. Users cannot share same phone number in database)"
               placeholder="(555) 123-4567"
             />
           </div>
@@ -305,7 +305,7 @@ export default function RegisterForm({ user }: { user: User }) {
             fieldType={FormFieldType.SKELETON}
             control={form.control}
             name="identificationDocument"
-            label="Scanned copy of identification document"
+            label="Scanned copy of identification document (image must be smaller than 3MB)"
             renderSkeleton={(field) => (
               <FormControl>
                 <FileUploader files={field.value} onChange={field.onChange} />
